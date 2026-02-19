@@ -218,14 +218,22 @@ export default function Page() {
   </div>
 </div>
 
-              <InputRow
-                label="AI System Investment (Year 1)"
-                value={investmentYear1}
-                onChange={setInvestmentYear1}
-                prefix="$"
-                step={1000}
-                min={0}
-              />
+              <div className="flex flex-col gap-1">
+  <div className="text-sm text-neutral-600">AI System Investment (Year 1)</div>
+  <div className="flex items-center gap-2">
+    <span className="text-neutral-500">$</span>
+    <input
+      className="w-full rounded-xl border border-neutral-200 bg-white px-3 py-2 text-base outline-none focus:ring-2 focus:ring-neutral-900/10"
+      inputMode="numeric"
+      value={formatInt(investment)}
+      onChange={(e) => {
+        const raw = e.target.value.replace(/,/g, "");
+        const n = clampNumber(raw, investment);
+        setInvestment(Math.max(0, Math.round(n)));
+      }}
+    />
+  </div>
+</div>
 
               <PercentRow label="Marketing Budget (% of revenue)" value={marketingPct} onChange={setMarketingPct} />
               <PercentRow label="Content Marketing (% of marketing budget)" value={contentPct} onChange={setContentPct} />
