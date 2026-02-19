@@ -225,11 +225,11 @@ export default function Page() {
     <input
       className="w-full rounded-xl border border-neutral-200 bg-white px-3 py-2 text-base outline-none focus:ring-2 focus:ring-neutral-900/10"
       inputMode="numeric"
-      value={formatInt(investment)}
+      value={formatInt(investmentYear1)}
       onChange={(e) => {
         const raw = e.target.value.replace(/,/g, "");
-        const n = clampNumber(raw, investment);
-        setInvestment(Math.max(0, Math.round(n)));
+        const n = clampNumber(raw, investmentYear1);
+        setInvestmentYear1(Math.max(0, Math.round(n)));
       }}
     />
   </div>
