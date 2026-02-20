@@ -289,10 +289,10 @@ export default function Page() {
 
           {/* OUTPUTS */}
           <section className="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-neutral-200">
-            <h2 className="mb-4 text-lg font-semibold text-neutral-900">Core results</h2>
+            <h2 className="mb-4 text-lg font-semibold text-neutral-900 text-neutral-900">Core results</h2>
 
             <div className="overflow-hidden rounded-2xl border border-neutral-200">
-              <table className="w-full text-sm">
+              <table className="w-full text-sm text-neutral-900">
                 <tbody className="divide-y divide-neutral-200">
                   <tr>
                     <td className="px-4 py-3 text-neutral-700">Marketing Budget</td>
@@ -332,8 +332,8 @@ export default function Page() {
 
             <h2 className="mt-8 mb-4 text-lg font-semibold text-neutral-900">Upside scenarios</h2>
 
-            <div className="overflow-hidden rounded-2xl border border-neutral-200">
-              <table className="w-full text-sm">
+            <div className="overflow-hidden rounded-2xl border border-neutral-200 text-neutral-900">
+              <table className="w-full text-sm text-neutral-900">
                 <thead className="bg-neutral-100 text-neutral-700">
                   <tr>
                     <th className="px-4 py-3 text-left font-semibold">Scenario</th>
