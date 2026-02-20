@@ -141,7 +141,7 @@ export default function Page() {
       <div className="flex items-center gap-2">
         {prefix ? <span className="text-neutral-500">{prefix}</span> : null}
         <input
-          className="w-full rounded-xl border border-neutral-200 bg-white px-3 py-2 text-base outline-none focus:ring-2 focus:ring-neutral-900/10"
+          className="w-full rounded-xl border border-neutral-200 bg-white px-3 py-2 text-base outline-none focus:ring-2 focus:ring-neutral-900/10 text-neutral-900 placeholder:text-neutral-400"
           inputMode="decimal"
           value={Number.isFinite(value) ? value : 0}
           min={min}
@@ -206,7 +206,7 @@ export default function Page() {
   <div className="flex items-center gap-2">
     <span className="text-neutral-500">$</span>
     <input
-      className="w-full rounded-xl border border-neutral-200 bg-white px-3 py-2 text-base outline-none focus:ring-2 focus:ring-neutral-900/10"
+      className="w-full rounded-xl border border-neutral-200 bg-white px-3 py-2 text-base outline-none focus:ring-2 focus:ring-neutral-900/10 text-neutral-900 placeholder:text-neutral-400"
       inputMode="numeric"
       value={formatInt(revenue)}
       onChange={(e) => {
@@ -223,7 +223,7 @@ export default function Page() {
   <div className="flex items-center gap-2">
     <span className="text-neutral-500">$</span>
     <input
-      className="w-full rounded-xl border border-neutral-200 bg-white px-3 py-2 text-base outline-none focus:ring-2 focus:ring-neutral-900/10"
+      className="w-full rounded-xl border border-neutral-200 bg-white px-3 py-2 text-base outline-none focus:ring-2 focus:ring-neutral-900/10 text-neutral-900 placeholder:text-neutral-400"
       inputMode="numeric"
       value={formatInt(investmentYear1)}
       onChange={(e) => {
