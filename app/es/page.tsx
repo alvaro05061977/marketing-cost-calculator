@@ -320,7 +320,7 @@ export default function Page() {
               <StablePercentInput label="Content marketing (% del presupuesto de marketing)" value={contentPct} onChange={setContentPct} />
 
               <StablePercentInput label="Asignación a video y fotografía (interna)" value={demoAllocPct} onChange={setDemoAllocPct} />
-              <StablePercentInput label="Reemplazo de recurson de producción (interno) (%)" value={replacementPct} onChange={setReplacementPct} />
+              <StablePercentInput label="Reemplazo de recursos de producción (interno) (%)" value={replacementPct} onChange={setReplacementPct} />
               <StablePercentInput label="Margen bruto (supuesto)" value={grossMargin} onChange={setGrossMargin} />
             </div>
 
