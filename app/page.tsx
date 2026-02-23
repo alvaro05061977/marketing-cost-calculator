@@ -39,6 +39,87 @@ type Scenario = {
 };
 
 export default function Page() {
+  const StableNumberInput = ({
+    label,
+    value,
+    onValue,
+    prefix,
+    suffix,
+    inputMode = "decimal",
+    step,
+    min,
+    format,
+  }: {
+    label: string;
+    value: number;
+    onValue: (n: number) => void;
+    prefix?: string;
+    suffix?: string;
+    inputMode?: "numeric" | "decimal";
+    step?: number;
+    min?: number;
+    format?: (n: number) => string;
+  }) => {
+    const [draft, setDraft] = useState<string>(() => (format ? format(value) : String(value)));
+    const [isEditing, setIsEditing] = useState<boolean>(false);
+
+    React.useEffect(() => {
+      if (!isEditing) setDraft(format ? format(value) : String(value));
+    }, [value, isEditing, format]);
+
+    return (
+      <div className="flex flex-col gap-1">
+        <div className="text-sm text-neutral-600">{label}</div>
+        <div className="flex items-center gap-2">
+          {prefix ? <span className="text-neutral-500">{prefix}</span> : null}
+          <input
+            className="w-full rounded-xl border border-neutral-200 bg-white px-3 py-2 text-base outline-none focus:ring-2 focus:ring-neutral-900/10 text-neutral-900 placeholder:text-neutral-400"
+            inputMode={inputMode}
+            value={draft}
+            min={min}
+            step={step}
+            onFocus={() => {
+              setIsEditing(true);
+              setDraft(String(Math.round(value * 1000000) / 1000000));
+            }}
+            onChange={(e) => setDraft(e.target.value)}
+            onBlur={() => {
+              setIsEditing(false);
+              const raw = draft.replace(/,/g, "").trim();
+              const n = Number(raw);
+              const next = Number.isFinite(n) ? (min !== undefined ? Math.max(min, n) : n) : value;
+              onValue(next);
+              setDraft(format ? format(next) : String(next));
+            }}
+          />
+          {suffix ? <span className="text-neutral-500">{suffix}</span> : null}
+        </div>
+      </div>
+    );
+  };
+
+  const StablePercentInput = ({
+    label,
+    value,
+    onChange,
+    step = 0.25,
+  }: {
+    label: string;
+    value: number; // stored as decimal fraction (e.g. 0.07)
+    onChange: (n: number) => void;
+    step?: number;
+  }) => (
+    <StableNumberInput
+      label={label}
+      value={Math.round(value * 10000) / 100}
+      onValue={(n) => onChange(Math.max(0, n) / 100)}
+      suffix="%"
+      inputMode="decimal"
+      step={step}
+      min={0}
+      format={(n) => n.toLocaleString("en-US", { maximumFractionDigits: 2 })}
+    />
+  );
   // === Inputs (from your spreadsheet) ===
   const [revenue, setRevenue] = useState<number>(14_000_000); // C1
 
@@ -235,12 +316,12 @@ export default function Page() {
   </div>
 </div>
 
-              <PercentRow label="Marketing Budget (% of revenue)" value={marketingPct} onChange={setMarketingPct} />
-              <PercentRow label="Content Marketing (% of marketing budget)" value={contentPct} onChange={setContentPct} />
+              <StablePercentInput label="Marketing Budget (% of revenue)" value={marketingPct} onChange={setMarketingPct} />
+              <StablePercentInput label="Content Marketing (% of marketing budget)" value={contentPct} onChange={setContentPct} />
 
-              <PercentRow label="Video Demos Allocation (internal)" value={demoAllocPct} onChange={setDemoAllocPct} />
-<PercentRow label="Cost reduction in demo production (%)" value={replacementPct} onChange={setReplacementPct} />
-              <PercentRow label="Gross Margin (assumption)" value={grossMargin} onChange={setGrossMargin} />
+              <StablePercentInput label="Video Demos Allocation (internal)" value={demoAllocPct} onChange={setDemoAllocPct} />
+              <StablePercentInput label="Cost reduction in demo production (%)" value={replacementPct} onChange={setReplacementPct} />
+              <StablePercentInput label="Gross Margin (assumption)" value={grossMargin} onChange={setGrossMargin} />
             </div>
 
             <div className="mt-6 border-t border-neutral-100 pt-4">
@@ -256,25 +337,29 @@ export default function Page() {
 
                     <div className="grid gap-4 sm:grid-cols-2">
                       <div>
-  <InputRow
-    label="Performance uplift (proxy reputation)"
-    value={Math.round(s.perfUplift * 10000) / 100}
-    onChange={(n) => setScenario(idx, { perfUplift: Math.max(0, n) / 100 })}
-    suffix="%"
-    step={0.5}
-    min={0}
-  />
-  <div className="mt-1 text-xs italic text-neutral-400">
-  Proxy metric (not in ROI math)
-</div>
-</div>
-                      <InputRow
+                        <StableNumberInput
+                          label="Performance uplift (proxy reputation)"
+                          value={s.perfUplift * 100}
+                          onValue={(n) => setScenario(idx, { perfUplift: Math.max(0, n) / 100 })}
+                          suffix="%"
+                          inputMode="decimal"
+                          step={0.5}
+                          min={0}
+                          format={(n) => n.toLocaleString("en-US", { maximumFractionDigits: 2 })}
+                        />
+                        <div className="mt-1 text-xs italic text-neutral-400">
+                          Proxy metric (not in ROI math)
+                        </div>
+                      </div>
+                      <StableNumberInput
                         label="Sales uplift (as % of revenue)"
-                        value={Math.round(s.salesUplift * 10000) / 100}
-                        onChange={(n) => setScenario(idx, { salesUplift: Math.max(0, n) / 100 })}
+                        value={s.salesUplift * 100}
+                        onValue={(n) => setScenario(idx, { salesUplift: Math.max(0, n) / 100 })}
                         suffix="%"
+                        inputMode="decimal"
                         step={0.05}
                         min={0}
+                        format={(n) => n.toLocaleString("en-US", { maximumFractionDigits: 2 })}
                       />
                     </div>
                   </div>
