@@ -446,36 +446,67 @@ export default function Page() {
 
             <h2 className="mt-8 mb-4 text-lg font-semibold text-neutral-900">Escenarios (upside)</h2>
 
-            <div className="overflow-hidden rounded-2xl border border-neutral-200 text-neutral-900">
+            {/* Mobile: cards (no horizontal scroll) */}
+            <div className="grid gap-3 md:hidden">
+              {calc.scenarioResults.map((s) => (
+                <div key={s.name} className="rounded-2xl border border-neutral-200 bg-white p-3">
+                  <div className="mb-2 flex items-center justify-between">
+                    <div className="text-sm font-semibold text-neutral-900">Escenario {s.name}</div>
+                    <div className="text-[11px] text-neutral-500">Upside</div>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-x-3 gap-y-2 text-sm">
+                    <div className="text-neutral-600">Ventas incrementales</div>
+                    <div className="text-right font-medium text-neutral-900">{money(s.incrementalSales)}</div>
+
+                    <div className="text-neutral-600">Utilidad incremental</div>
+                    <div className="text-right font-medium text-neutral-900">{money(s.incrementalProfit)}</div>
+
+                    <div className="text-neutral-600">ROI a 2 años (Total)</div>
+                    <div className="text-right font-semibold text-neutral-900">{pct(s.roi2yTotal, 0)}</div>
+
+                    <div className="text-neutral-600">Recuperación (meses)</div>
+                    <div className="text-right font-medium text-neutral-900">
+                      {Number.isFinite(s.paybackMonthsUpside) ? num(s.paybackMonthsUpside, 1) : "—"}
+                    </div>
+                  </div>
+
+                  <div className="mt-2 text-xs text-neutral-500">
+                    ROI total = ahorro + utilidad incremental
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Tablet/Desktop: table */}
+            <div className="hidden overflow-x-auto rounded-2xl border border-neutral-200 text-neutral-900 md:block">
               <table className="w-full text-sm text-neutral-900">
                 <thead className="bg-neutral-100 text-neutral-700">
                   <tr>
-                    <th className="px-4 py-3 text-left font-semibold">Escenario</th>
-                    <th className="px-4 py-3 text-right font-semibold">Ventas incrementales</th>
-                    <th className="px-4 py-3 text-right font-semibold">Utilidad incremental</th>
-          <th className="px-4 py-3 text-right font-semibold">
-  ROI a 2 años (Total)
-  <div className="text-xs font-normal text-neutral-500 whitespace-nowrap">
-  (ahorro + utilidad incremental)
-</div>
-</th>
-                    <th className="px-4 py-3 text-right font-semibold">Recuperación (meses)</th>
+                    <th className="px-3 py-2 text-left font-semibold">Esc.</th>
+                    <th className="px-3 py-2 text-right font-semibold">Ventas inc.</th>
+                    <th className="px-3 py-2 text-right font-semibold">Util. inc.</th>
+                    <th className="px-3 py-2 text-right font-semibold whitespace-nowrap">ROI 2 años</th>
+                    <th className="px-3 py-2 text-center font-semibold whitespace-nowrap">Recup. (meses)</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-neutral-200">
                   {calc.scenarioResults.map((s) => (
                     <tr key={s.name}>
-                      <td className="px-4 py-3 font-medium text-neutral-900">{s.name}</td>
-                      <td className="px-4 py-3 text-right">{money(s.incrementalSales)}</td>
-                      <td className="px-4 py-3 text-right">{money(s.incrementalProfit)}</td>
-                      <td className="px-4 py-3 text-right font-medium">{pct(s.roi2yTotal, 0)}</td>
-                      <td className="px-4 py-3 text-right">
+                      <td className="px-3 py-2 font-medium text-neutral-900">{s.name}</td>
+                      <td className="px-3 py-2 text-right">{money(s.incrementalSales)}</td>
+                      <td className="px-3 py-2 text-right">{money(s.incrementalProfit)}</td>
+                      <td className="px-3 py-2 text-right font-medium">{pct(s.roi2yTotal, 0)}</td>
+                      <td className="px-3 py-2 text-center">
                         {Number.isFinite(s.paybackMonthsUpside) ? num(s.paybackMonthsUpside, 1) : "—"}
                       </td>
                     </tr>
                   ))}
                 </tbody>
               </table>
+              <div className="px-3 py-2 text-xs text-neutral-500">
+                ROI 2 años = ahorro + utilidad incremental
+              </div>
             </div>
 
             <footer className="mt-4 text-xs text-neutral-500">
