@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-
+import Link from "next/link";
 import React, { useMemo, useState } from "react";
 
 const LOCALE_ES = "es-ES";
@@ -289,21 +289,30 @@ export default function Page() {
   return (
     <main className="min-h-screen bg-neutral-50">
       <div className="mx-auto max-w-6xl px-6 py-10">
-        <header className="mb-8 flex items-center justify-between gap-4">
-          <div className="flex items-center gap-4">
-            <div className="rounded-2xl bg-white p-3 shadow-sm ring-1 ring-neutral-200">
-              <Image src="/logo.png" alt="Company Logo" width={140} height={44} priority />
-            </div>
-            <div>
-              <h1 className="text-2xl font-semibold tracking-tight text-neutral-900">
-                Motor de Contenido con IA — Calculadora de Valor de Inversión
-              </h1>
-              <p className="text-sm text-neutral-600">
-                Entradas del cliente → ROI, recuperación y escenarios de upside (coincide con tu spreadsheet).
-              </p>
-            </div>
-          </div>
-        </header>
+        <header className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+  <div className="flex items-center gap-4">
+    <div className="rounded-2xl bg-white p-3 shadow-sm ring-1 ring-neutral-200">
+      <Image src="/logo.png" alt="Company Logo" width={140} height={44} priority />
+    </div>
+    <div>
+      <h1 className="text-2xl font-semibold tracking-tight text-neutral-900">
+        Motor de Contenido con IA — Calculadora de Valor de Inversión
+      </h1>
+      <p className="text-sm text-neutral-600">
+        Entradas del cliente → ROI, recuperación y escenarios de upside (coincide con tu spreadsheet).
+      </p>
+    </div>
+  </div>
+
+  {/* Language switch */}
+  <div className="flex items-center gap-2 shrink-0">
+    <Link href="/" className="text-xs font-semibold text-neutral-500 hover:text-neutral-900">
+      EN
+    </Link>
+    <span className="text-neutral-300">|</span>
+    <span className="text-xs font-semibold text-neutral-900">ES</span>
+  </div>
+</header>
 
         <div className="grid gap-6 lg:grid-cols-2">
           {/* INPUTS */}
