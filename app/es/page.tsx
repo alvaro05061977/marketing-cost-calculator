@@ -300,7 +300,7 @@ export default function Page() {
 </div>
 
               <div className="flex flex-col gap-1">
-  <div className="text-sm text-neutral-600">Inversión del sistema IA (Año 1)</div>
+  <div className="text-sm text-neutral-600">Inversión en motor creativo IA (Año 1)</div>
   <div className="flex items-center gap-2">
     <span className="text-neutral-500">$</span>
     <input
@@ -388,7 +388,7 @@ export default function Page() {
                     <td className="px-4 py-3 text-right font-medium">{money(calc.contentBudget)}</td>
                   </tr>
                   <tr>
-                    <td className="px-4 py-3 text-neutral-700">Año 1 — Presupuesto de demos de video</td>
+                    <td className="px-4 py-3 text-neutral-700">Año 1 - Asignación a video y fotografía</td>
                     <td className="px-4 py-3 text-right font-medium">{money(calc.demoBudgetYear1)}</td>
                   </tr>
                   <tr className="bg-neutral-50">
@@ -396,7 +396,7 @@ export default function Page() {
                     <td className="px-4 py-3 text-right font-semibold">{money(calc.annualSavings)}</td>
                   </tr>
                   <tr>
-                    <td className="px-4 py-3 text-neutral-700">Reducción de costo (presupuesto demos)</td>
+                    <td className="px-4 py-3 text-neutral-700">Reducción de costo (video y fotografía)</td>
                     <td className="px-4 py-3 text-right font-medium">{pct(calc.reductionPct, 0)}</td>
                   </tr>
                   <tr>
