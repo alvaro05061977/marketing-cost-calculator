@@ -329,7 +329,7 @@ export default function Page() {
 </div>
 
               <div className="flex flex-col gap-1">
-  <div className="text-sm text-neutral-600">Inversión en motor creativo IA (Año 1)</div>
+  <div className="text-sm text-neutral-600">Inversión motor creativo IA (Año 1)</div>
   <div className="flex items-center gap-2">
     <span className="text-neutral-500">$</span>
     <input
