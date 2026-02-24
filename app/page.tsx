@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import React, { useMemo, useState } from "react";
 
 function clampNumber(v: string, fallback: number): number {
@@ -273,6 +274,13 @@ export default function Page() {
                 Client inputs → automatic ROI, payback, and upside scenarios (matches your spreadsheet).
               </p>
             </div>
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="text-xs font-semibold text-neutral-900">EN</span>
+            <span className="text-neutral-300">|</span>
+            <Link href="/es" className="text-xs font-semibold text-neutral-500 hover:text-neutral-900">
+              ES
+            </Link>
           </div>
         </header>
 
