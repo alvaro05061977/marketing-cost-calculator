@@ -1,35 +1,63 @@
 "use client";
 
 import Image from "next/image";
+
 import React, { useMemo, useState } from "react";
 
+const LOCALE_ES = "es-ES";
+
+// Parses Spanish-style numbers:
+// - thousands separator: '.'
+// - decimal separator: ','
+// Examples: "14.000.000" -> 14000000, "10,2" -> 10.2
+function parseEsNumber(input: string): number {
+  const s = String(input)
+    .trim()
+    .replace(/\s/g, "")
+    .replace(/\./g, "")
+    .replace(/,/g, ".");
+  const n = Number(s);
+  return Number.isFinite(n) ? n : NaN;
+}
+
+function formatEsNumber(n: number, digits = 2): string {
+  if (!Number.isFinite(n)) return "";
+  return n.toLocaleString(LOCALE_ES, {
+    minimumFractionDigits: digits,
+    maximumFractionDigits: digits,
+  });
+}
+
 function clampNumber(v: string, fallback: number): number {
-  const n = Number(String(v).replace(/,/g, ""));
+  const n = parseEsNumber(v);
   return Number.isFinite(n) ? n : fallback;
 }
 
 function money(n: number): string {
   if (!Number.isFinite(n)) return "$0";
-  return new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: "USD",
-    maximumFractionDigits: 0,
-  }).format(n);
+  return `$${formatInt(n)}`;
 }
 
 function formatInt(n: number): string {
   if (!Number.isFinite(n)) return "";
-  return Math.round(n).toLocaleString("en-US");
+  return Math.round(n).toLocaleString(LOCALE_ES);
 }
 
 function pct(n: number, digits = 0): string {
   if (!Number.isFinite(n)) return "0%";
-  return `${(n * 100).toFixed(digits)}%`;
+  const v = (n * 100).toLocaleString(LOCALE_ES, {
+    minimumFractionDigits: digits,
+    maximumFractionDigits: digits,
+  });
+  return `${v}%`;
 }
 
 function num(n: number, digits = 2): string {
   if (!Number.isFinite(n)) return "0";
-  return n.toFixed(digits);
+  return n.toLocaleString(LOCALE_ES, {
+    minimumFractionDigits: digits,
+    maximumFractionDigits: digits,
+  });
 }
 
 type Scenario = {
@@ -80,13 +108,14 @@ export default function Page() {
             step={step}
             onFocus={() => {
               setIsEditing(true);
-              setDraft(String(Math.round(value * 1000000) / 1000000));
+              // show a clean editable value using Spanish decimal comma
+              const raw = String(Math.round(value * 1000000) / 1000000).replace(".", ",");
+              setDraft(raw);
             }}
             onChange={(e) => setDraft(e.target.value)}
             onBlur={() => {
               setIsEditing(false);
-              const raw = draft.replace(/,/g, "").trim();
-              const n = Number(raw);
+              const n = parseEsNumber(draft);
               const next = Number.isFinite(n) ? (min !== undefined ? Math.max(min, n) : n) : value;
               onValue(next);
               setDraft(format ? format(next) : String(next));
@@ -117,7 +146,7 @@ export default function Page() {
       inputMode="decimal"
       step={step}
       min={0}
-      format={(n) => n.toLocaleString("en-US", { maximumFractionDigits: 2 })}
+      format={(n) => n.toLocaleString(LOCALE_ES, { maximumFractionDigits: 2 })}
     />
   );
   // === Inputs (from your spreadsheet) ===
@@ -291,7 +320,7 @@ export default function Page() {
       inputMode="numeric"
       value={formatInt(revenue)}
       onChange={(e) => {
-        const raw = e.target.value.replace(/,/g, "");
+        const raw = e.target.value;
         const n = clampNumber(raw, revenue);
         setRevenue(Math.max(0, Math.round(n)));
       }}
@@ -308,7 +337,7 @@ export default function Page() {
       inputMode="numeric"
       value={formatInt(investmentYear1)}
       onChange={(e) => {
-        const raw = e.target.value.replace(/,/g, "");
+        const raw = e.target.value;
         const n = clampNumber(raw, investmentYear1);
         setInvestmentYear1(Math.max(0, Math.round(n)));
       }}
@@ -345,7 +374,7 @@ export default function Page() {
                           inputMode="decimal"
                           step={0.5}
                           min={0}
-                          format={(n) => n.toLocaleString("en-US", { maximumFractionDigits: 2 })}
+                          format={(n) => n.toLocaleString(LOCALE_ES, { maximumFractionDigits: 2 })}
                         />
                         <div className="mt-1 text-xs italic text-neutral-400">
                           Métrica proxy (no entra en el cálculo del ROI)
@@ -359,7 +388,7 @@ export default function Page() {
                         inputMode="decimal"
                         step={0.05}
                         min={0}
-                        format={(n) => n.toLocaleString("en-US", { maximumFractionDigits: 2 })}
+                        format={(n) => n.toLocaleString(LOCALE_ES, { maximumFractionDigits: 2 })}
                       />
                     </div>
                   </div>
