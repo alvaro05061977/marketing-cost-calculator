@@ -319,8 +319,8 @@ export default function Page() {
               <StablePercentInput label="Marketing Budget (% of revenue)" value={marketingPct} onChange={setMarketingPct} />
               <StablePercentInput label="Content Marketing (% of marketing budget)" value={contentPct} onChange={setContentPct} />
 
-              <StablePercentInput label="Video Demos Allocation (internal)" value={demoAllocPct} onChange={setDemoAllocPct} />
-              <StablePercentInput label="Cost reduction in demo production (%)" value={replacementPct} onChange={setReplacementPct} />
+              <StablePercentInput label="Video & photography allocation (internal)" value={demoAllocPct} onChange={setDemoAllocPct} />
+              <StablePercentInput label="Cost reduction in video and photography production (%)" value={replacementPct} onChange={setReplacementPct} />
               <StablePercentInput label="Gross Margin (assumption)" value={grossMargin} onChange={setGrossMargin} />
             </div>
 
@@ -396,7 +396,7 @@ export default function Page() {
                     <td className="px-4 py-3 text-right font-semibold">{money(calc.annualSavings)}</td>
                   </tr>
                   <tr>
-                    <td className="px-4 py-3 text-neutral-700">Cost reduction (Video Demo Budget)</td>
+                    <td className="px-4 py-3 text-neutral-700">Cost reduction in video and photography</td>
                     <td className="px-4 py-3 text-right font-medium">{pct(calc.reductionPct, 0)}</td>
                   </tr>
                   <tr>
